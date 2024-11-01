@@ -66,12 +66,7 @@ class _ActivityChartState extends State<ActivityChart> {
                     child: Center(
                       child: Text(
                         '6.18%',
-                        style: TextStyle(
-                          color: const Color(0xFF23B26A),
-                          fontSize: 15.sp,
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: kStyleGreen15600,
                       ),
                     ),
                   ),
