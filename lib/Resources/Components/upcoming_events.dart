@@ -51,22 +51,11 @@ class _EventsListViewState extends State<EventsListView> {
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       itemBuilder: (context, index) {
-        DateTime currentTime = upcomingTimes[index];
-        DateTime? nextTime =
-            index < upcomingTimes.length - 1 ? upcomingTimes[index + 1] : null;
-
-        // Filter events that start within the current hour
-        List<EventModel> eventsForCurrentHour = events.where((event) {
-          return (event.startTime.isAfter(currentTime) &&
-                  (nextTime != null && event.startTime.isBefore(nextTime))) ||
-              event.startTime.isAtSameMomentAs(currentTime) ||
-              (nextTime != null && event.startTime.isAtSameMomentAs(nextTime));
-        }).toList();
-
         return Row(
           children: [
             Text(
-              "${upcomingTimes[index].hour.toString().padLeft(2, '0')}:${upcomingTimes[index].minute.toString().padLeft(2, '0')}",
+              "${upcomingTimes[index].hour.toString().padLeft(2, '0')}:"
+              "${upcomingTimes[index].minute.toString().padLeft(2, '0')}",
               style: kStyleGrey15400,
             ),
             upcomingTimes[index].minute == 0
@@ -167,32 +156,8 @@ class _EventsListViewState extends State<EventsListView> {
                       ),
                     ),
                   )
-                : Expanded(
-                    child: eventsForCurrentHour.isNotEmpty
-                        ? Wrap(
-                            children: eventsForCurrentHour.map((event) {
-                              return GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        TaskDetailDialog(event: event),
-                                  );
-                                },
-                                child: TaskCard(
-                                  title: event.title,
-                                  color: getRandomColor(),
-                                  time: DateFormat('MMMM d, y')
-                                      .format(event.startTime),
-                                  type: event.calenderType,
-                                  participants: event.participants,
-                                ),
-                              );
-                            }).toList(),
-                          )
-                        : SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                          ),
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
                   ),
           ],
         );
